@@ -78,7 +78,8 @@
 <!-- ===== PERFORMANCE ===== -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" href="hero.png" as="image" fetchpriority="high">
+<link rel="preload" href="hero.webp" as="image" type="image/webp" fetchpriority="high">
+<link rel="preload" href="hero-mobile.webp" as="image" type="image/webp" media="(max-width: 768px)">
 <link rel="dns-prefetch" href="https://wa.me">
 <link rel="dns-prefetch" href="https://gnom.guru">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -728,7 +729,11 @@
 <!-- ===== HERO ===== -->
 <section class="hero" aria-label="Portada">
   <div class="hero__image">
-    <img src="hero.png" alt="Retrato de modelo con cejas perfectamente delineadas" fetchpriority="high" decoding="async" loading="eager">
+    <picture>
+      <source media="(max-width: 768px)" srcset="hero-mobile.webp" type="image/webp">
+      <source srcset="hero.webp" type="image/webp">
+      <img src="hero.png" alt="Retrato de modelo con cejas perfectamente delineadas" fetchpriority="high" decoding="async" loading="eager">
+    </picture>
   </div>
   <div class="hero__overlay" aria-hidden="true"></div>
   <div class="hero__content container container--wide">
@@ -829,7 +834,10 @@
 <!-- ===== ABOUT (full-bleed transition) ===== -->
 <section class="full-bleed" aria-labelledby="fullbleed-title">
   <div class="full-bleed__bg">
-    <img src="service.png" alt="Artista realizando micropigmentación en cliente" loading="lazy" decoding="async">
+    <picture>
+      <source srcset="service.webp" type="image/webp">
+      <img src="service.png" alt="Artista realizando micropigmentación en cliente" loading="lazy" decoding="async">
+    </picture>
   </div>
   <div class="full-bleed__overlay" aria-hidden="true"></div>
   <div class="full-bleed__content">
@@ -871,7 +879,7 @@
       </div>
 
       <div class="about__image-wrap reveal reveal--delay-1">
-        <img src="brows.png" alt="Resultado de micropigmentación de cejas — cejas simétricas y naturales" loading="lazy" width="600" height="750">
+        <img src="brows.webp" onerror="this.src='brows.png'" alt="Resultado de micropigmentación de cejas — cejas simétricas y naturales" loading="lazy" width="600" height="750">
         <div class="about__image-badge">Zaragoza, España</div>
       </div>
     </div>
@@ -934,19 +942,19 @@
 
     <div class="gallery-grid reveal">
       <div class="gallery-item gallery-item--large">
-        <img src="hero.png" alt="Resultado de diseño de cejas y mirada perfecta" loading="lazy" width="800" height="400">
+        <img src="hero.webp" onerror="this.src='hero.png'" alt="Resultado de diseño de cejas y mirada perfecta" loading="lazy" width="800" height="400">
       </div>
       <div class="gallery-item">
-        <img src="brows.png" alt="Cejas simétricas micropigmentadas resultado natural" loading="lazy" width="400" height="400">
+        <img src="brows.webp" onerror="this.src='brows.png'" alt="Cejas simétricas micropigmentadas resultado natural" loading="lazy" width="400" height="400">
       </div>
       <div class="gallery-item">
         <img src="service.png" alt="Procedimiento de micropigmentación facial profesional" loading="lazy" width="400" height="400">
       </div>
       <div class="gallery-item">
-        <img src="brows.png" alt="Detalle de micropigmentación hilo a hilo" loading="lazy" width="400" height="400">
+        <img src="brows.webp" onerror="this.src='brows.png'" alt="Detalle de micropigmentación hilo a hilo" loading="lazy" width="400" height="400">
       </div>
       <div class="gallery-item">
-        <img src="hero.png" alt="Resultado final mirada transformada" loading="lazy" width="400" height="400">
+        <img src="hero.webp" onerror="this.src='hero.png'" alt="Resultado final mirada transformada" loading="lazy" width="400" height="400">
       </div>
     </div>
 
