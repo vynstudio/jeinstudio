@@ -263,7 +263,13 @@
 
   .hero__image {
     position: absolute; inset: 0;
-    background: url('hero.png') center top / cover no-repeat;
+    overflow: hidden;
+  }
+  .hero__image img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 18%;
+    will-change: auto;
   }
   .hero__overlay {
     position: absolute; inset: 0;
@@ -448,7 +454,12 @@
   }
   .full-bleed__bg {
     position: absolute; inset: 0;
-    background: url('service.png') center / cover no-repeat;
+    overflow: hidden;
+  }
+  .full-bleed__bg img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
+    will-change: auto;
   }
   .full-bleed__overlay {
     position: absolute; inset: 0;
@@ -634,7 +645,9 @@
 
 <!-- ===== HERO ===== -->
 <section class="hero" aria-label="Portada">
-  <div class="hero__image" role="img" aria-label="Retrato de modelo con cejas perfectamente delineadas"></div>
+  <div class="hero__image">
+    <img src="hero.png" alt="Retrato de modelo con cejas perfectamente delineadas" fetchpriority="high" decoding="async" loading="eager">
+  </div>
   <div class="hero__overlay" aria-hidden="true"></div>
   <div class="hero__content container container--wide">
     <p class="hero__eyebrow">Zaragoza, España</p>
@@ -733,7 +746,9 @@
 
 <!-- ===== ABOUT (full-bleed transition) ===== -->
 <section class="full-bleed" aria-labelledby="fullbleed-title">
-  <div class="full-bleed__bg" role="img" aria-label="Artista realizando micropigmentación en cliente"></div>
+  <div class="full-bleed__bg">
+    <img src="service.png" alt="Artista realizando micropigmentación en cliente" loading="lazy" decoding="async">
+  </div>
   <div class="full-bleed__overlay" aria-hidden="true"></div>
   <div class="full-bleed__content">
     <p class="section__eyebrow reveal" style="color: var(--color-primary);">El Arte del Detalle</p>
