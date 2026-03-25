@@ -309,7 +309,7 @@
   .hero__image {
     position: absolute; inset: 0;
     overflow: hidden;
-    background: url('hero-mobile.webp') center 18% / cover no-repeat;
+    background: url('data:image/webp;base64,UklGRqYBAABXRUJQVlA4IJoBAABwDACdASooAEgAPxF0sFAsJySiqrZvMYAiCUAXmwhpEnxbBfXrmCyT2uuOKz1F/2lcf/1fn20JnHVsE9SdR7L3ebQb3xlp+D5GhLsOezTW8U29Q1K5cMwBxNethfi/HoVnacwRbRjlSyWzfAAA/vd+vE3/UY2Gs9IqIS/O4TkkWr7vZFx2d0OWuxnAA2MLeab1tEBRkda4Dk+xin4LPypz3gIWKF68aG4EMmoYGStuxIQ1n/ZFjbSVXPw8StBtRfCBrQws+arSP6LciARxwmPNTxrp89VYKucG54D0/C6yamPfCWhULm4RQW1Yp27t3bW31og1HPH7MtE9rpzDJAjr4YFsHEto4NU03AEudKqutR1/EDJLWK+gpOVRNHGYomOJB2F8caG2ZRvqEQcLJhrY+BlVbjRusQj8GRPfJdV1e0y6e/pB2fGLrG9tfUEVVHXqu8GMB4wW9oA5zqcsQ++TbttuaQLKDDdARZGykXtGD+79Mf+GJ6uHdw36QHW1GQy+6IAG7isZL6ILx85eotKYfrBr3jbYdsAwAA==') center 18% / cover no-repeat;
   }
 
   /* Video fades in over the background — no flash ever */
@@ -321,7 +321,7 @@
     opacity: 0;
     transition: opacity 1s ease;
   }
-  .hero__video.playing { opacity: 1; }
+  .hero__video.playing { opacity: 1; transition: opacity 0.4s ease; }
 
   @media (max-width: 768px) {
     .hero__video { object-position: 60% 18%; }
