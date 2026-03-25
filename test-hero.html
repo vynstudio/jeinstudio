@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hero Video Test</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background: #000; font-family: Arial, sans-serif; }
+
+.test { position: relative; width: 100%; height: 100vh; overflow: hidden; background: #0a0806; }
+
+.test__poster {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center 18%;
+}
+
+.test__video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center 18%;
+  visibility: hidden;
+}
+.test__video.playing { visibility: visible; }
+
+.log {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(0,0,0,0.85); color: #0f0; font-size: 12px;
+  padding: 8px; max-height: 160px; overflow-y: auto; z-index: 99;
+}
+.log p { margin: 2px 0; }
+
+/* Test A: visibility switch */
+#testA {}
+
+/* Test B: using CSS background as poster trick - video starts at opacity 1 
+   but parent has background-image so there's always something showing */
+#testB .test__video {
+  visibility: visible;
+  opacity: 0;
+}
+#testB .test__video.playing { opacity: 1; }
+#testB { background-image: url('hero-mobile.webp'); background-size: cover; background-position: center 18%; }
+#testB .test__poster { display: none; }
+
+.label {
+  position: absolute; top: 16px; left: 16px; z-index: 10;
+  background: rgba(0,0,0,0.7); color: #c9952a; padding: 6px 12px;
+  border-radius: 20px; font-size: 13px; font-weight: bold;
+}
+.switch { position: fixed; top: 16px; right: 16px; z-index: 100; display: flex; gap: 8px; }
+.switch button {
+  background: #c9952a; color: #000; border: none; padding: 8px 16px;
+  border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px;
+}
+</style>
+</head>
+<body>
+
+<div class="switch">
+  <button onclick="show('A')">Test A</button>
+  <button onclick="show('B')">Test B</button>
+</div>
+
+<!-- TEST A: visibility:hidden → visible via double rAF -->
+<div class="test" id="testA">
+  <div class="label">A: visibility + double rAF</div>
+  <img class="test__poster" src="hero-mobile.webp" alt="">
+  <video class="test__video" id="vidA" autoplay muted loop playsinline preload="auto">
+    <source src="hero.webm" type="video/webm">
+    <source src="hero.mp4" type="video/mp4">
+  </video>
+</div>
+
+<!-- TEST B: CSS background as poster, video opacity 0→1 -->
+<div class="test" id="testB" style="display:none">
+  <div class="label">B: CSS background poster + opacity</div>
+  <video class="test__video" id="vidB" autoplay muted loop playsinline preload="auto">
+    <source src="hero.webm" type="video/webm">
+    <source src="hero.mp4" type="video/mp4">
+  </video>
+</div>
+
+<div class="log" id="log"></div>
+
+<script>
+function log(msg) {
+  const d = document.getElementById('log');
+  const p = document.createElement('p');
+  p.textContent = `${new Date().toISOString().substr(11,8)} — ${msg}`;
+  d.prepend(p);
+}
+
+function show(t) {
+  document.getElementById('testA').style.display = t === 'A' ? 'block' : 'none';
+  document.getElementById('testB').style.display = t === 'B' ? 'block' : 'none';
+  log(`Switched to Test ${t}`);
+}
+
+// Test A logic
+const vidA = document.getElementById('vidA');
+log('A: video created');
+vidA.addEventListener('loadstart', () => log('A: loadstart'));
+vidA.addEventListener('canplay',   () => log('A: canplay'));
+vidA.addEventListener('playing',   () => {
+  log('A: playing event — scheduling rAF x2');
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      vidA.classList.add('playing');
+      log('A: visibility shown after double rAF');
+    });
+  });
+}, { once: true });
+vidA.play().catch(e => log('A: play() rejected: ' + e));
+
+// Test B logic  
+const vidB = document.getElementById('vidB');
+vidB.addEventListener('playing', () => {
+  log('B: playing event — opacity fade starting');
+  vidB.classList.add('playing');
+}, { once: true });
+vidB.play().catch(e => log('B: play() rejected: ' + e));
+</script>
+</body>
+</html>
