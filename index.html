@@ -297,6 +297,7 @@
     min-height: 92dvh;
     display: grid;
     grid-template-columns: 1fr;
+    background: #0a0806; /* dark fallback while media loads */
   }
 
   .hero__image {
@@ -309,6 +310,15 @@
     object-fit: cover;
     object-position: center 18%;
     will-change: auto;
+  }
+
+  /* On mobile: hide video, show poster image instead */
+  @media (max-width: 768px) {
+    .hero__image video { display: none; }
+    .hero__image .hero__mobile-fallback { display: block; }
+  }
+  @media (min-width: 769px) {
+    .hero__image .hero__mobile-fallback { display: none; }
   }
   .hero__overlay {
     position: absolute; inset: 0;
@@ -730,13 +740,14 @@
 <!-- ===== HERO ===== -->
 <section class="hero" aria-label="Portada">
   <div class="hero__image">
+    <!-- Mobile: static image (iOS Safari won't autoplay video reliably) -->
+    <img class="hero__mobile-fallback" src="hero-mobile.webp" alt="Micropigmentación de cejas — Jeins.Studio®" fetchpriority="high" decoding="async">
+    <!-- Desktop: autoplay video -->
     <video autoplay muted loop playsinline preload="auto"
            poster="hero.webp"
-           aria-label="Micropigmentación de cejas — Jeins.Studio®">
+           aria-hidden="true">
       <source src="hero.webm" type="video/webm">
       <source src="hero.mp4" type="video/mp4">
-      <!-- Fallback for no-video browsers -->
-      <img src="hero.webp" alt="Retrato de modelo con cejas perfectamente delineadas">
     </video>
   </div>
   <div class="hero__overlay" aria-hidden="true"></div>
