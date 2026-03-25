@@ -247,3 +247,97 @@
   .reveal--delay-1 { transition-delay: 0.1s; }
   .reveal--delay-2 { transition-delay: 0.2s; }
   .reveal--delay-3 { transition-delay: 0.3s; }
+
+/* ===== BOOKING FORM ===== */
+.booking-form-wrap {
+  max-width: 600px; margin: var(--space-10) auto 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8) var(--space-8) var(--space-10);
+  box-shadow: var(--shadow-lg);
+}
+
+.bf-progress {
+  height: 2px; background: var(--color-divider);
+  border-radius: 99px; margin-bottom: var(--space-6); overflow: hidden;
+}
+.bf-progress__bar {
+  height: 100%; background: var(--color-primary);
+  border-radius: 99px; width: 33%;
+  transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+.bf-steps-indicator {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; margin-bottom: var(--space-8);
+}
+.bf-step-dot {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 1.5px solid var(--color-border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: var(--text-xs); font-weight: 600; color: var(--color-text-muted);
+  transition: all 0.3s ease; background: var(--color-surface); flex-shrink: 0;
+}
+.bf-step-dot.active { border-color: var(--color-primary); color: var(--color-primary); background: var(--color-primary-highlight); }
+.bf-step-dot.done { border-color: var(--color-primary); background: var(--color-primary); color: #fff; }
+.bf-step-line { flex: 1; height: 1px; background: var(--color-divider); max-width: 80px; }
+
+.bf-step { animation: bf-slide-in 0.35s cubic-bezier(0.16,1,0.3,1); }
+@keyframes bf-slide-in { from { opacity:0; transform: translateX(20px); } to { opacity:1; transform: translateX(0); } }
+
+.bf-step__title {
+  font-family: var(--font-display); font-size: var(--text-xl);
+  font-weight: 400; margin-bottom: var(--space-6); color: var(--color-text);
+}
+
+.bf-services {
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+@media (max-width: 480px) { .bf-services { grid-template-columns: 1fr; } }
+
+.bf-service-btn {
+  display: flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md); background: var(--color-surface);
+  cursor: pointer; text-align: left; color: var(--color-text);
+  font-size: var(--text-sm); transition: all 0.2s ease;
+}
+.bf-service-btn:hover { border-color: var(--color-primary); background: var(--color-primary-highlight); }
+.bf-service-btn.selected { border-color: var(--color-primary); background: var(--color-primary-highlight); color: var(--color-primary); font-weight: 600; }
+.bf-service-icon { color: var(--color-primary); font-size: 0.7rem; flex-shrink: 0; }
+
+.bf-fields { display: flex; flex-direction: column; gap: var(--space-4); margin-bottom: var(--space-6); }
+.bf-field { display: flex; flex-direction: column; gap: var(--space-2); }
+.bf-label { font-size: var(--text-sm); font-weight: 500; color: var(--color-text-muted); letter-spacing: 0.02em; }
+.bf-input {
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md); background: var(--color-surface-2);
+  color: var(--color-text); font-size: var(--text-base);
+  transition: border-color 0.2s ease;
+  width: 100%;
+}
+.bf-input:focus { outline: none; border-color: var(--color-primary); }
+.bf-textarea { resize: vertical; min-height: 80px; }
+
+.bf-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: var(--space-4); border-top: 1px solid var(--color-divider);
+}
+
+.bf-error { color: #e05a5a; font-size: var(--text-sm); min-height: 1.2em; margin-bottom: var(--space-3); }
+
+.bf-success {
+  text-align: center; padding: var(--space-10) var(--space-4);
+  animation: bf-slide-in 0.4s ease;
+}
+.bf-success__icon {
+  font-size: 2.5rem; color: var(--color-primary); margin-bottom: var(--space-4);
+  animation: star-glow 2s ease infinite;
+}
+.bf-success__title { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 400; margin-bottom: var(--space-3); }
+.bf-success__text { color: var(--color-text-muted); max-width: 40ch; margin: 0 auto var(--space-2); }
+.bf-success__detail { font-size: var(--text-sm); color: var(--color-primary); font-weight: 500; }

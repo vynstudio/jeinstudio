@@ -48,6 +48,7 @@
 
 [build]
   publish = "."
+  functions = "netlify/functions"
 
 [[redirects]]
   from = "https://www.jeinsstudio.com/*"
