@@ -191,6 +191,7 @@
     -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility; scroll-behavior: smooth;
     scroll-padding-top: var(--space-16);
+    background-color: var(--color-dark);
   }
 
   body {
@@ -199,7 +200,11 @@
     font-size: var(--text-base);
     color: var(--color-text);
     background-color: var(--color-bg);
+    display: flex;
+    flex-direction: column;
   }
+
+  footer { margin-top: auto; }
 
   img, picture, video, canvas, svg { display: block; max-width: 100%; height: auto; }
   ul[role="list"], ol[role="list"] { list-style: none; }
