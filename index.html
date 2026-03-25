@@ -313,16 +313,15 @@
     object-position: center 18%;
   }
 
-  /* Video — fades in once playing */
+  /* Video — invisible until first frame ready, then instant switch */
   .hero__video {
     position: absolute; inset: 0;
     width: 100%; height: 100%;
     object-fit: cover;
     object-position: center 18%;
-    opacity: 0;
-    transition: opacity 0.8s ease;
+    visibility: hidden;
   }
-  .hero__video.playing { opacity: 1; }
+  .hero__video.playing { visibility: visible; }
 
   @media (max-width: 768px) {
     .hero__video { object-position: 60% 18%; }
@@ -1132,16 +1131,19 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-  // Hero video — fade in once playing (works on iOS Safari with muted+playsinline)
+  // Hero video — no flash: poster stays until video first frame is painted
   const heroVideo = document.querySelector('.hero__video');
   if (heroVideo) {
-    const showVideo = () => heroVideo.classList.add('playing');
-    heroVideo.addEventListener('playing', showVideo);
-    heroVideo.addEventListener('canplay', () => {
-      heroVideo.play().then(showVideo).catch(() => {
-        // Autoplay blocked — poster image stays visible, that's fine
+    const showVideo = () => {
+      // requestAnimationFrame ensures the frame is actually painted before we show
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          heroVideo.classList.add('playing');
+        });
       });
-    });
+    };
+    heroVideo.addEventListener('playing', showVideo, { once: true });
+    heroVideo.play().catch(() => { /* autoplay blocked, poster stays */ });
   }
 </script>
 
