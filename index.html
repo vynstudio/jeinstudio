@@ -297,28 +297,35 @@
     min-height: 92dvh;
     display: grid;
     grid-template-columns: 1fr;
-    background: #0a0806; /* dark fallback while media loads */
+    background: #0a0806;
   }
 
   .hero__image {
     position: absolute; inset: 0;
     overflow: hidden;
   }
-  .hero__image img,
-  .hero__image video {
+
+  /* Poster image — always visible instantly */
+  .hero__poster {
+    position: absolute; inset: 0;
     width: 100%; height: 100%;
     object-fit: cover;
     object-position: center 18%;
-    will-change: auto;
   }
 
-  /* On mobile: hide video, show poster image instead */
-  @media (max-width: 768px) {
-    .hero__image video { display: none; }
-    .hero__image .hero__mobile-fallback { display: block; }
+  /* Video — fades in once playing */
+  .hero__video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 18%;
+    opacity: 0;
+    transition: opacity 0.8s ease;
   }
-  @media (min-width: 769px) {
-    .hero__image .hero__mobile-fallback { display: none; }
+  .hero__video.playing { opacity: 1; }
+
+  @media (max-width: 768px) {
+    .hero__video { object-position: 60% 18%; }
   }
   .hero__overlay {
     position: absolute; inset: 0;
@@ -740,12 +747,10 @@
 <!-- ===== HERO ===== -->
 <section class="hero" aria-label="Portada">
   <div class="hero__image">
-    <!-- Mobile: static image (iOS Safari won't autoplay video reliably) -->
-    <img class="hero__mobile-fallback" src="hero-mobile.webp" alt="Micropigmentación de cejas — Jeins.Studio®" fetchpriority="high" decoding="async">
-    <!-- Desktop: autoplay video -->
-    <video autoplay muted loop playsinline preload="auto"
-           poster="hero.webp"
-           aria-hidden="true">
+    <!-- Poster image shows instantly while video loads on all devices -->
+    <img class="hero__poster" src="hero-mobile.webp" alt="Micropigmentación de cejas — Jeins.Studio®" fetchpriority="high" decoding="async">
+    <!-- Video plays on ALL devices including iOS Safari -->
+    <video class="hero__video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
       <source src="hero.webm" type="video/webm">
       <source src="hero.mp4" type="video/mp4">
     </video>
@@ -1126,6 +1131,18 @@
     });
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  // Hero video — fade in once playing (works on iOS Safari with muted+playsinline)
+  const heroVideo = document.querySelector('.hero__video');
+  if (heroVideo) {
+    const showVideo = () => heroVideo.classList.add('playing');
+    heroVideo.addEventListener('playing', showVideo);
+    heroVideo.addEventListener('canplay', () => {
+      heroVideo.play().then(showVideo).catch(() => {
+        // Autoplay blocked — poster image stays visible, that's fine
+      });
+    });
+  }
 </script>
 
 <script data-pplx-inline-edit>
