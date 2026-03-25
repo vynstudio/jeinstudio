@@ -305,23 +305,23 @@
     overflow: hidden;
   }
 
-  /* Poster image — always visible instantly */
-  .hero__poster {
+  /* Poster via CSS background — always visible, no img flash */
+  .hero__image {
     position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: center 18%;
+    overflow: hidden;
+    background: url('hero-mobile.webp') center 18% / cover no-repeat;
   }
 
-  /* Video — invisible until first frame ready, then instant switch */
+  /* Video fades in over the background — no flash ever */
   .hero__video {
     position: absolute; inset: 0;
     width: 100%; height: 100%;
     object-fit: cover;
     object-position: center 18%;
-    visibility: hidden;
+    opacity: 0;
+    transition: opacity 1s ease;
   }
-  .hero__video.playing { visibility: visible; }
+  .hero__video.playing { opacity: 1; }
 
   @media (max-width: 768px) {
     .hero__video { object-position: 60% 18%; }
@@ -746,9 +746,6 @@
 <!-- ===== HERO ===== -->
 <section class="hero" aria-label="Portada">
   <div class="hero__image">
-    <!-- Poster image shows instantly while video loads on all devices -->
-    <img class="hero__poster" src="hero-mobile.webp" alt="Micropigmentación de cejas — Jeins.Studio®" fetchpriority="high" decoding="async">
-    <!-- Video plays on ALL devices including iOS Safari -->
     <video class="hero__video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
       <source src="hero.webm" type="video/webm">
       <source src="hero.mp4" type="video/mp4">
@@ -1131,19 +1128,13 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-  // Hero video — no flash: poster stays until video first frame is painted
+  // Hero video — CSS background is always visible, video fades in on top
   const heroVideo = document.querySelector('.hero__video');
   if (heroVideo) {
-    const showVideo = () => {
-      // requestAnimationFrame ensures the frame is actually painted before we show
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          heroVideo.classList.add('playing');
-        });
-      });
-    };
-    heroVideo.addEventListener('playing', showVideo, { once: true });
-    heroVideo.play().catch(() => { /* autoplay blocked, poster stays */ });
+    heroVideo.addEventListener('playing', () => {
+      heroVideo.classList.add('playing');
+    }, { once: true });
+    heroVideo.play().catch(() => { /* poster stays if blocked */ });
   }
 </script>
 
